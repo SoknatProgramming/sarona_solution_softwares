@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/Sarona_Solution_Softwares.props" />
+</Project>

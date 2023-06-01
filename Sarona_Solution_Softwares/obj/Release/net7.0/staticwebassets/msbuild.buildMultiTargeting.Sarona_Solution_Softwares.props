@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/Sarona_Solution_Softwares.props" />
+</Project>
