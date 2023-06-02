@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "k/god8/LLZ5XNBAzn2tqnWQtcGh68msud1SOmWz4Ie+wnP5yg0h0afoIGaoBgV+Y5VquA8J4/fVAg9CmHzmqWw==",
+  "dgSpecHash": "JUoJTkLR5GIW2h4b7l73HfqeDuzA5L3S3nHyguNnHsPElWqGMCPqSvmevzs1JAWq7YQNWjGWj/xltxtAeZo3hQ==",
   "success": true,
-  "projectFilePath": "/Users/ndeveloper/Desktop/Sarona_Solution_Softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj",
+  "projectFilePath": "/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj",
   "expectedPackageFiles": [
     "/Users/ndeveloper/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/ndeveloper/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

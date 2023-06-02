@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/ndeveloper/Desktop/Sarona_Solution_Softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj": {}
+    "/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj": {}
   },
   "projects": {
-    "/Users/ndeveloper/Desktop/Sarona_Solution_Softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj": {
+    "/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/ndeveloper/Desktop/Sarona_Solution_Softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj",
+        "projectUniqueName": "/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj",
         "projectName": "Sarona_Solution_Softwares",
-        "projectPath": "/Users/ndeveloper/Desktop/Sarona_Solution_Softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj",
+        "projectPath": "/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Sarona_Solution_Softwares.csproj",
         "packagesPath": "/Users/ndeveloper/.nuget/packages/",
-        "outputPath": "/Users/ndeveloper/Desktop/Sarona_Solution_Softwares/Sarona_Solution_Softwares/obj/",
+        "outputPath": "/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/ndeveloper/.nuget/NuGet/NuGet.Config"

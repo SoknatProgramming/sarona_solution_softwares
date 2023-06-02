@@ -41,6 +41,7 @@
     <None Remove="CustomActionFilters\" />
     <None Remove="Repositories\Auth\" />
     <None Remove="Repositories\TestRequest\" />
+    <None Remove="HandleStatus\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mapping\" />
@@ -52,5 +53,6 @@
     <Folder Include="CustomActionFilters\" />
     <Folder Include="Repositories\Auth\" />
     <Folder Include="Repositories\TestRequest\" />
+    <Folder Include="HandleStatus\" />
   </ItemGroup>
 </Project>

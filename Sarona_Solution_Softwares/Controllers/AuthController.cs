@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Sarona_Solution_Softwares;
 using Sarona_Solution_Softwares.Model.DomainDTOs;
 using Sarona_Solution_Softwares.Repositories;
 
@@ -30,28 +31,41 @@ namespace WebApiAsp.net7.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
-            var identityUser = new IdentityUser
+            HandleStatus handleStatus = new HandleStatus();
+            handleStatus.ErrCode = 1;
+            try
             {
-                UserName = registerRequestDto.Username,
-                Email = registerRequestDto.Username
-                
-            };
-            var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
-
-            if(identityResult.Succeeded)
-            {
-                // add roles to this user
-
-                if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+                var identityUser = new IdentityUser
                 {
-                   identityResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
-                    if (identityResult.Succeeded)
+                    UserName = registerRequestDto.Username,
+                    Email = registerRequestDto.Username
+
+                };
+                var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
+
+                if (identityResult.Succeeded)
+                {
+                    // add roles to this user
+
+                    if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
                     {
-                        return Ok("User was registered! PLease Login");
+                        identityResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
+                        if (identityResult.Succeeded)
+                        {
+                            handleStatus.ErrCode = 0;
+                            handleStatus.ErrMsg = "User was registered! PLease Login";
+
+                            return Ok(handleStatus);
+                        }
                     }
                 }
+            }catch(Exception ex)
+            {
+                handleStatus.ErrCode = ex.HResult;
+                handleStatus.ErrMsg = ex.Message;
             }
-            return BadRequest("Something when wrong!");
+            
+            return BadRequest(handleStatus);
         }
 
         [HttpPost]
@@ -64,8 +78,9 @@ namespace WebApiAsp.net7.Controllers
             if (user != null)
             {
                 var checkPasswordResult = await userManager.CheckPasswordAsync(user, loginRequestDto.Password);
+                var checkLoked = await userManager.IsLockedOutAsync(user);
 
-                if (checkPasswordResult)
+                if (checkPasswordResult && checkLoked == false)
                 {
                     var roles = await userManager.GetRolesAsync(user);
 
@@ -78,12 +93,56 @@ namespace WebApiAsp.net7.Controllers
                         {
                             JwtToken = jwtToken
                         };
+
+                        Response.Cookies.Append("JwtToken", jwtToken, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.None,
+                            Expires = DateTimeOffset.UtcNow.AddHours(12)
+                        });
+
+                        // Reset AccessFailedCount upon successful login
+                        await userManager.ResetAccessFailedCountAsync(user);
+
                         return Ok(response);
                     }
-                      
                 }
+                else
+                {
+                    // Increment AccessFailedCount and lock account if exceeded maximum attempts
+                    await userManager.AccessFailedAsync(user);
+
+                    if (await userManager.GetAccessFailedCountAsync(user) >= 3)
+                    {
+                   
+                        await userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddMinutes(30));
+                        return BadRequest($"To many atempt!");
+
+                    }
+                    
+                }
+                //check isLockedOut user waiting minutes counted
+                if (checkLoked)
+                {
+                    var lockoutEnd = await userManager.GetLockoutEndDateAsync(user);
+                    var remainingTimeSpan = lockoutEnd - DateTimeOffset.UtcNow;
+                    var remainingMinutes = FormatTime(remainingTimeSpan.ToString());
+                    return BadRequest($"Account is locked. Please try again in {remainingMinutes} minutes.");
+                }
+
+                return BadRequest("Your password incorrect");
+
             }
-            return BadRequest("Username and Password incorrect");
+
+            return BadRequest("This Email isn't Registered yet, PLease Register First");
+        }
+        //format time
+        private static string FormatTime(string inputTime)
+        {
+            TimeSpan timeSpan = TimeSpan.Parse(inputTime);
+            string formattedTime = $"{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+            return formattedTime;
         }
     }
 }
