@@ -42,6 +42,8 @@
     <None Remove="Repositories\Auth\" />
     <None Remove="Repositories\TestRequest\" />
     <None Remove="HandleStatus\" />
+    <None Remove="Repositories\Images\" />
+    <None Remove="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mapping\" />
@@ -54,5 +56,7 @@
     <Folder Include="Repositories\Auth\" />
     <Folder Include="Repositories\TestRequest\" />
     <Folder Include="HandleStatus\" />
+    <Folder Include="Repositories\Images\" />
+    <Folder Include="Images\" />
   </ItemGroup>
 </Project>

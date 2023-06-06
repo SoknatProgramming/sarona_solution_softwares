@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Emit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ namespace Sarona_Solution_Softwares.Data
 
             var readerRoleId = "cec4fada-2834-4b74-b019-a5772398b17";
             var writerRoleId = "256ca52b-39f1-43b7-9ad3-0ea71d04a4e";
+
+            builder.Entity<IdentityUser>(entity =>
+            {
+                entity.ToTable("user_table","dbo"); // Change the table name here
+            });
 
             var roles = new List<IdentityRole>
             {

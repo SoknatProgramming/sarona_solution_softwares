@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sarona_Solution_Softwares;
+using Sarona_Solution_Softwares.Model.Domain;
 using Sarona_Solution_Softwares.Model.DomainDTOs;
+using Sarona_Solution_Softwares.Model.DomainDTOs.CustomActionFilters;
 using Sarona_Solution_Softwares.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,23 +21,40 @@ namespace WebApiAsp.net7.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly ITokenRepository tokenRepository;
+        private readonly ITestRequest testRequest;
+        private readonly IMapper mapper;
 
-        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
+        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository, ITestRequest testRequest, IMapper mapper)
         {
             this.userManager = userManager;
             this.tokenRepository = tokenRepository;
+            this.testRequest = testRequest;
+            this.mapper = mapper;
         }
 
 
         //POST : /api/auth/register
         [HttpPost]
         [Route("Register")]
+        [ValidateModel]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
-            HandleStatus handleStatus = new HandleStatus();
-            handleStatus.ErrCode = 1;
-            try
+            // Perform email validation
+            if (!IsValidEmail(registerRequestDto.Username))
             {
+                ModelState.AddModelError("errMgs", "Invalid email format, Example: userexample@gmail.com");
+                return BadRequest(ModelState);
+            }
+
+            // Perform password validation
+            else if (!IsValidPassword(registerRequestDto.Password))
+            {
+                ModelState.AddModelError("errMgs", "Password must have a minimum length of 8 characters with uppercase lowercase letter,digit and Symbol");
+                return BadRequest(ModelState);
+            }
+            else
+            {
+
                 var identityUser = new IdentityUser
                 {
                     UserName = registerRequestDto.Username,
@@ -52,25 +72,50 @@ namespace WebApiAsp.net7.Controllers
                         identityResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
                         if (identityResult.Succeeded)
                         {
-                            handleStatus.ErrCode = 0;
-                            handleStatus.ErrMsg = "User was registered! PLease Login";
-
-                            return Ok(handleStatus);
+                            return Ok(identityResult);
                         }
                     }
                 }
-            }catch(Exception ex)
-            {
-                handleStatus.ErrCode = ex.HResult;
-                handleStatus.ErrMsg = ex.Message;
             }
             
-            return BadRequest(handleStatus);
+            return Ok();
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidPassword(string password)
+        {
+            // Password must have a minimum length of 8 characters
+            if (password.Length < 8)
+            {
+                return false;
+            }
+
+            // Password must contain at least one uppercase letter, one lowercase letter, one digit and one Symbol
+            if (!password.Any(char.IsUpper) || !password.Any(char.IsLower) || !password.Any(char.IsDigit) || !password.Any(char.IsSymbol))
+            {
+                return false;
+            }
+
+            // Additional password complexity rules can be added here
+
+            return true;
         }
 
         [HttpPost]
         [Route("Login")]
-
+        [ValidateModel]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto )
         {
             var user = await userManager.FindByEmailAsync(loginRequestDto.Username);
@@ -104,6 +149,8 @@ namespace WebApiAsp.net7.Controllers
 
                         // Reset AccessFailedCount upon successful login
                         await userManager.ResetAccessFailedCountAsync(user);
+                        var testData = testRequest.GetAllAsync();
+                        response.TestData = mapper.Map<List<TestRequestDto>>(testData);
 
                         return Ok(response);
                     }

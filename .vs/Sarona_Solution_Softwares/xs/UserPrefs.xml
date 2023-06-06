@@ -1,0 +1,44 @@
+﻿<Properties StartupConfiguration="{5BFA2D05-B106-4A94-9A91-4AF539280231}|https">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Sarona__Solution__Softwares PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Repositories/Images/LocalImageRepository.cs" relfile="Sarona_Solution_Softwares/Repositories/Images/LocalImageRepository.cs" line="23" column="1" />
+      <Breakpoint file="/Users/ndeveloper/Desktop/sarona_solution_softwares/Sarona_Solution_Softwares/Controllers/ImagesController.cs" relfile="Sarona_Solution_Softwares/Controllers/ImagesController.cs" line="58" column="13" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sarona_Solution_Softwares/Model/DomainDTOs/ImageUploadRequestDto.cs">
+    <Files>
+      <File FileName="Sarona_Solution_Softwares/Model/Domain/Image.cs" Line="17" Column="2" />
+      <File FileName="Sarona_Solution_Softwares/Data/UserDBContext.cs" Line="11" Column="1" />
+      <File FileName="Sarona_Solution_Softwares/Program.cs" Line="63" Column="70" />
+      <File FileName="Sarona_Solution_Softwares/Controllers/ImagesController.cs" Line="58" Column="69" />
+      <File FileName="Sarona_Solution_Softwares/Model/DomainDTOs/ImageUploadRequestDto.cs" Line="7" Column="3" />
+      <File FileName="Sarona_Solution_Softwares/Repositories/Images/IImageRepository.cs" Line="9" Column="3" />
+      <File FileName="Sarona_Solution_Softwares/Repositories/Images/LocalImageRepository.cs" Line="27" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Sarona_Solution_Softwares" expanded="True">
+            <Node name="Sarona_Solution_Softwares" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Model" expanded="True">
+                <Node name="Domain" expanded="True" />
+                <Node name="DomainDTOs" expanded="True">
+                  <Node name="ImageUploadRequestDto.cs" selected="True" />
+                </Node>
+              </Node>
+              <Node name="Repositories" expanded="True">
+                <Node name="Images" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+</Properties>

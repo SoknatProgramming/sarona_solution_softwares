@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace WebApiAsp.net7.CustomActionFilters
+namespace Sarona_Solution_Softwares.Model.DomainDTOs.CustomActionFilters
 {
 	public class ValidateModelAttribute : ActionFilterAttribute
 	{

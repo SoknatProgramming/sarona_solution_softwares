@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Sarona_Solution_Softwares;
 using Sarona_Solution_Softwares.Data;
 using Sarona_Solution_Softwares.Repositories;
+using Sarona_Solution_Softwares.Repositories.Images;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -47,8 +49,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 //Inject Connection DB from Appseeting
-//builder.Services.AddDbContext<ApiDBContext>(options =>
-//options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
+builder.Services.AddDbContext<UserDBContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //Inject Connection Auth DB from Appseeting
 builder.Services.AddDbContext<AuthDBContext>(options =>
@@ -58,6 +60,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 //builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<ITestRequest, SQLTestRequest>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
 // Add Mapper Service to Map from SQL Domain Model to DTO Domain
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
@@ -74,12 +77,17 @@ builder.Services.AddIdentityCore<IdentityUser>()
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 6;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 1;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+    options.Lockout.AllowedForNewUsers = true;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12);
+    options.Lockout.MaxFailedAccessAttempts = 3;
 
 });
 

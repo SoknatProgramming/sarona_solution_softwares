@@ -12,8 +12,8 @@ using Sarona_Solution_Softwares.Data;
 namespace Sarona_Solution_Softwares.Migrations
 {
     [DbContext(typeof(AuthDBContext))]
-    [Migration("20230601062445_AddAuthDBConext")]
-    partial class AddAuthDBConext
+    [Migration("20230606013228_AddNewAuthDBContext")]
+    partial class AddNewAuthDBContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,7 +155,7 @@ namespace Sarona_Solution_Softwares.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("user_table", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
